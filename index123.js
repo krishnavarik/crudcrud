@@ -32,42 +32,47 @@ function addItem(e) {
   // localStorage.setItem(users.email, JSON.stringify(users));
 
   //--------------calling function to the UserOnScreen--------------------//
-  
+  // usersOnScreen(users.email)
   axios
-  .post("https://crudcrud.com/api/d618d7a0b20d45f992ba3d2edd982677/appointmentApp", users)
-  .then((res) => {
-    usersOnScreen(res.data)
-    console.log(res)
-  })
-  .catch((err) => console.log(err))     
+    .post(
+      "https://crudcrud.com/api/d618d7a0b20d45f992ba3d2edd982677/bookingApp",
+      users
+    )
+    .then((res) => {
+      usersOnScreen(res.data);
+      console.log(res);
+    })
+    .catch((err) => console.log(err));
 }
 
 //-----------userDetails on The screen---------//
 
-// window.addEventListener("DOMContentLoaded", () => {
-//   const localStorageObj = localStorage;
-//   const localStoragekeys = Object.keys(localStorageObj);
+window.addEventListener("DOMContentLoaded", () => {
+  // axios.get is a network call --> asynchronous
+  // what is mean by async is ,if I give input uotput will not instantly,there will be delay of few seconds for o/p.
+  axios
+    .get(
+      "https://crudcrud.com/api/d618d7a0b20d45f992ba3d2edd982677/bookingApp"
+    )
+    .then((response) => {
+      console.log(response);
 
-//   for (var i = 0; i < localStoragekeys.length; i++) {
-//     const key = localStoragekeys[i];
-//     const userDetailsString = localStorageObj[key];
-//     const userDetailsObj = JSON.parse(userDetailsString);
-//     usersOnScreen(userDetailsObj);
-//   }
-// });
-window.addEventListener("DOMContentLoaded", ()=>  {
-  const localStorageObj = localStorage;
-  const localSrorageKeys = Object.keys(localStorage);
+      for (var i = 0; i < response.data.length; i++) {
+        usersOnScreen(response.data[i]);
+      }
+    })
+    .catch((err) => console.log(err));
 
-  for(let i = 0; i<localSrorageKeys.length; i++ ){
-    const key = localSrorageKeys[i];
-    const localStorageStringObj = localStorageObj[key];
-    const userDetailes = JSON.parse(localStorageStringObj)
+  // const localStorageObj = localStorage;
+  // const localStoragekeys = Object.keys(localStorageObj);
 
-    usersOnScreen(userDetailes)
-  }
-
-})
+  // for (var i = 0; i < localStoragekeys.length; i++) {
+  //   const key = localStoragekeys[i];
+  //   const userDetailsString = localStorageObj[key];
+  //   const userDetailsObj = JSON.parse(userDetailsString);
+  // usersOnScreen(userDetailsObj);
+  // }
+});
 
 function usersOnScreen(users) {
   //   ------------cretaed by sharpener ---------//
